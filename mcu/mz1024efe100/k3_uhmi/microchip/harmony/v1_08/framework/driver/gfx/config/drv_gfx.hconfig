@@ -1,0 +1,4 @@
+source "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/config/drv_gfx_controller.hconfig"
+source "$HARMONY_VERSION_PATH/framework/driver/gfx/display/config/drv_gfx_display.hconfig"
+
+

@@ -1,0 +1,89 @@
+menu "GLCD"
+
+enum DRV_GLCD_MODE
+    "STATIC"
+    || "DYNAMIC"
+
+enum DRV_GFX_GLCD_LAYER_ID
+    "LAYER_ID_0"
+    || "LAYER_ID_1"
+    || "LAYER_ID_2"
+
+
+config USE_DRV_GFX_GLCD_NEEDED
+    bool
+
+config USE_DRV_GFX_GLCD
+    bool "Use GLCD Driver?"
+    default n if !USE_DRV_GFX_GLCD_NEEDED
+    default y if USE_DRV_GFX_GLCD_NEEDED
+    default n
+    ---help---
+     IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+config DRV_GFX_GLCD_MODE
+    string "Driver Implementation"
+    depends on USE_DRV_GFX_GLCD
+    range DRV_GLCD_MODE
+    default "STATIC"
+    ---help---
+    IDH_HTML_DRV_TMR_Timer_Driver_Library
+    ---endhelp---
+
+config DRV_GFX_GLCD_ENABLE_ALL_RGB_PINS
+    bool "Use All RGB Pins?"
+    depends on USE_DRV_GFX_GLCD
+    default y
+    ---help---
+    IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+config DRV_GFX_GLCD_VSYNC_INTERRUPT
+    bool "Vsync Interrupt"
+    depends on USE_DRV_GFX_GLCD
+    select USE_SYS_INT_NEEDED
+    default n
+    ---help---
+    IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+config DRV_GFX_GLCD_BACKGROUND_COLOR
+    string "Background Color (hex)"
+    depends on USE_DRV_GFX_GLCD
+    default 0xFFFFFF00
+    ---help---
+    IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+config DRV_GFX_GLCD_CURSOR
+    bool "Enable Cursor?"
+    depends on USE_DRV_GFX_GLCD
+    default n
+    ---help---
+    IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+config DRV_GFX_GLCD_LAYERS_NUMBER
+    int "Number of GLCD Layers"
+    depends on USE_DRV_GFX_GLCD
+    set GFX_MAX_LAYERS to DRV_GFX_GLCD_LAYERS_NUMBER
+    default 1
+    range 1 3
+    ---help---
+    IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+source "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/glcd/config/drv_gfx_glcd_idx.ftl" 3 instances
+
+endmenu
+
+ifblock USE_DRV_GFX_GLCD
+add "<#include \"/framework/driver/gfx/controller/config/drv_gfx_init_data.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/gfx/controller/glcd/config/drv_gfx_glcd_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+endif
+
+ifblock USE_DRV_GFX_GLCD
+template DRV_GFX_GLCD_STATIC_C "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/glcd/templates/drv_gfx_glcd_static.c.ftl" to "$PROJECT_SOURCE_FILES/app/system_config/$CONFIGURATION/framework/driver/gfx/controller/glcd/src/drv_gfx_glcd_static.c"
+template DRV_GFX_GLCD_STATIC_H "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/glcd/templates/drv_gfx_glcd_static.h.ftl" to "$PROJECT_HEADER_FILES/app/system_config/$CONFIGURATION/framework/driver/gfx/controller/glcd/drv_gfx_glcd_static.h"
+endif

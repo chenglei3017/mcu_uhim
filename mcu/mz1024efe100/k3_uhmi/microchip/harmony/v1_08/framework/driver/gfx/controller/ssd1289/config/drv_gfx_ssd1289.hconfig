@@ -1,0 +1,20 @@
+menu "SSD1289"
+
+config USE_DRV_GFX_SSD1289_NEEDED
+    bool
+
+config USE_DRV_GFX_SSD1289
+    bool "Use SSD1289 Driver?"
+    default n if !USE_DRV_GFX_SSD1289_NEEDED
+    default y if USE_DRV_GFX_SSD1289_NEEDED
+    ---help---
+     IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+endmenu
+
+ifblock USE_DRV_GFX_SSD1289
+file DRV_GFX_SSD1289_H "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/ssd1289/drv_gfx_ssd1289.h" to "$PROJECT_HEADER_FILES/framework/driver/gfx/controller/gfx_ssd1289/drv_gfx_ssd1289.h"
+file DRV_GFX_SSD1289_C "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/ssd1289/src/drv_gfx_ssd1289.c" to "$PROJECT_SOURCE_FILES/framework/driver/gfx/controller/gfx_ssd1289/src/drv_gfx_ssd1289.c"
+endif
+

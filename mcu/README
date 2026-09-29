@@ -1,0 +1,23 @@
+app_hex:
+	This folder store application .hex file: app.version.major.minor.hex,
+this folder will be copy and rename to rootfs/mcu.
+	app.1.xx.xx.hex for Microchip.
+	app.2.xx.xx.bin for ST.
+
+boot_hex:
+	This folder store bootloader .hex file: boot.major.minor.hex,
+	boot.1.xx.hex for Microchio.
+	boot.2.xx.bin for ST.
+
+intact_hex:
+	In this folder, bootloader and aplication in one hex file,
+Factories use this file burning MCU.
+	factory.1.xx.xx.hex for Microchip.
+	factory.2.xx.xx.bin for ST.
+
+
+mz1024efe100:
+	This folder include Bootloader code and Application code for Microchip.
+
+stm32f446:
+	This folder include Bootlaoder code and Application code for ST.

@@ -1,0 +1,4 @@
+---- tx_cond Matches (3 in 1 files) ----
+uhmi_main.c line 29 : pthread_cond_t  tx_cond = PTHREAD_COND_INITIALIZER;
+uhmi_pthread_tx in uhmi_main.c :         pthread_cond_wait(&tx_cond, &tx_mtx);
+uhmi_send_data in uhmi_main.c :     pthread_cond_signal(&tx_cond);

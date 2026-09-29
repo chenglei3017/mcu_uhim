@@ -1,0 +1,30 @@
+menu "SSD1926"
+
+config USE_DRV_GFX_SSD1926_NEEDED
+    bool
+
+config USE_DRV_GFX_SSD1926
+    bool "Use SSD1926 Driver?"
+    select DRIVER
+    select USE_DRV_PMP_NEEDED
+    default n if !USE_DRV_GFX_SSD1926_NEEDED
+    default y if USE_DRV_GFX_SSD1926_NEEDED
+    ---help---
+     IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+
+endmenu
+
+ifblock USE_DRV_GFX_SSD1926
+
+add "<#include \"/framework/driver/gfx/controller/config/drv_gfx_init_data.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/gfx/controller/ssd1926/config/drv_gfx_ssd1926_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+add "<#include \"/framework/driver/gfx/controller/ssd1926/templates/drv_ssd1926_tasks.c.ftl\">"  to list SYSTEM_TASKS_C_CALL_DRIVER_TASKS
+
+file DRV_GFX_SSD1926_H "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/ssd1926/drv_gfx_ssd1926.h" to "$PROJECT_HEADER_FILES/framework/driver/gfx/controller/gfx_ssd1926/drv_gfx_ssd1926.h"
+file DRV_GFX_CTRL_SSD1926_H "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/drv_gfx_controller.h" to "$PROJECT_HEADER_FILES/framework/driver/gfx/controller/drv_gfx_controller.h"
+file DRV_GFX_COMMON_SSD1926_H "$HARMONY_VERSION_PATH/framework/driver/gfx/gfx_common.h" to "$PROJECT_HEADER_FILES/framework/driver/gfx/gfx_common.h"
+file DRV_GFX_SSD1926_C "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/ssd1926/src/drv_gfx_ssd1926.c" to "$PROJECT_SOURCE_FILES/framework/driver/gfx/controller/gfx_ssd1926/src/drv_gfx_ssd1926.c"
+endif
+

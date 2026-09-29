@@ -1,0 +1,28 @@
+menu "S1D13517"
+
+config USE_DRV_GFX_S1D13517_NEEDED
+    bool
+
+config USE_DRV_GFX_S1D13517
+    bool "Use S1D13517 Driver?"
+    select DRIVER
+    select USE_DRV_PMP_NEEDED
+    default n if !USE_DRV_GFX_S1D13517_NEEDED
+    default y if USE_DRV_GFX_S1D13517_NEEDED
+    ---help---
+     IDH_HTML_Graphics_Driver_Library
+    ---endhelp---
+
+
+endmenu
+
+ifblock USE_DRV_GFX_S1D13517
+
+add "<#include \"/framework/driver/gfx/controller/config/drv_gfx_init_data.c.ftl\">"  to list SYSTEM_INIT_C_DRIVER_INITIALIZATION_DATA
+add "<#include \"/framework/driver/gfx/controller/s1d13517/config/drv_gfx_s1d13517_init.c.ftl\">"  to list SYSTEM_INIT_C_SYS_INITIALIZE_DRIVERS
+
+file DRV_GFX_S1D13517_H "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/s1d13517/drv_gfx_s1d13517.h" to "$PROJECT_HEADER_FILES/framework/driver/gfx/controller/gfx_s1d13517/drv_gfx_s1d13517.h"
+file DRV_GFX_CTRL_S1D13517_H "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/drv_gfx_controller.h" to "$PROJECT_HEADER_FILES/framework/driver/gfx/controller/drv_gfx_controller.h"
+file DRV_GFX_COMMON_S1D13517_H "$HARMONY_VERSION_PATH/framework/driver/gfx/gfx_common.h" to "$PROJECT_HEADER_FILES/framework/driver/gfx/gfx_common.h"
+file DRV_GFX_S1D13517_C "$HARMONY_VERSION_PATH/framework/driver/gfx/controller/s1d13517/src/drv_gfx_s1d13517.c" to "$PROJECT_SOURCE_FILES/framework/driver/gfx/controller/gfx_s1d13517/src/drv_gfx_s1d13517.c"
+endif
